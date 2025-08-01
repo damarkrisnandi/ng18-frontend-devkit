@@ -1,0 +1,137 @@
+<div class="grid gap-4 w-8/12">
+  <div class="grid grid-cols-12 md:gap-12" [formGroup]="headerForm">
+    <div class="col-span-12 grid gap-2">
+      <!-- Form Name -->
+        <div class="grid grid-cols-12 items-center gap-2">
+          <div class="col-span-12 md:col-span-3">
+            <label for="txt-form-name">Form Name</label>
+          </div>
+
+          <div class="col-span-12 md:col-span-9">
+            <input id="txt-form-name" type="text" pInputText formControlName="formName" class="w-full" />
+          </div>
+        </div>
+
+    </div>
+  </div>
+  <div class="grid grid-cols-12 md:gap-12" [formGroup]="gridForm">
+    <div class="col-span-12 grid gap-2">
+      <!-- Row Number -->
+      <div class="grid grid-cols-12 items-center gap-2">
+        <div class="col-span-12 md:col-span-3">
+          <label for="txt-account-number-input-account">Row*</label>
+        </div>
+
+        <div class="col-span-12 md:col-span-9">
+          <p-inputNumber inputId="num-row" formControlName="row" class="w-full" mode="decimal" locale="de-DE"
+            [min]="0"></p-inputNumber>
+        </div>
+      </div>
+
+      <!-- Cols Number -->
+      <div class="grid grid-cols-12 items-center gap-2">
+        <div class="col-span-12 md:col-span-3">
+          <label for="txt-account-number-input-account">Columns*</label>
+        </div>
+
+        <div class="col-span-12 md:col-span-9">
+          <p-inputNumber inputId="num-row" formControlName="column" class="w-full" mode="decimal" locale="de-DE"
+            [min]="0"></p-inputNumber>
+        </div>
+      </div>
+
+      <!-- Style Class -->
+      <div class="grid grid-cols-12 items-center gap-2">
+        <div class="col-span-12 md:col-span-3">
+          <label for="txt-account-number-input-account">Style Class?</label>
+        </div>
+
+        <div class="col-span-12 md:col-span-9">
+          <input id="num-row" type="text" pInputText formControlName="styleClass" class="w-full" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="grid grid-cols-12 items-center gap-2 w-full">
+    <div class="col-span-12">
+      <label for="txt-account-number-input-account">Form Group</label>
+    </div>
+
+    <div class="grid col-span-12 w-full">
+      <div class="colspan-6 grid gap-2">
+        <div class="grid col-span-12 gap-2">
+          <p>Import swagger / docs example</p>
+        </div>
+        <div class="grid col-span-12 gap-2">
+          <textarea rows="5" cols="30" pTextarea  [ngModel]="generatorStore.$jsonDataToField()" (ngModelChange)="jsonInput($event)" inputClass="w-full"></textarea>
+        </div>
+        <div class="grid col-span-12">
+          <p-button label="Export JSON to Field" (click)="exportJSONtoField()"></p-button>
+        </div>
+      </div>
+      <div class="colspan-6">
+        <div class="grid gap-2"><p>Or manually input</p></div>
+        <div class="grid grid-cols-12 gap-2">
+          <div class="col-span-2"><p class="text-sm font-semibold">name</p></div>
+          <div class="col-span-2"><p class="text-sm font-semibold">type</p></div>
+          <div class="col-span-2"><p class="text-sm font-semibold">defaultValue</p></div>
+          <div class="col-span-1"><p class="text-sm font-semibold">nullable</p></div>
+          <div class="col-span-3"><p class="text-sm font-semibold">options</p></div>
+          <div class="col-span-2"><p class="text-sm font-semibold">button action</p></div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-2">
+          @for (field of generatorStore.$formGenerator().fields; track $index) {
+          <div class="col-span-2">
+            <input pInputText type="text" [ngModel]="field.name" (ngModelChange)="update(field, 'name', $event)" fluid/>
+          </div>
+          <div class="col-span-2">
+            <p-select [options]="typeOptions" [ngModel]="field.type" (ngModelChange)="update(field, 'type', $event)"
+              appendTo="body" fluid></p-select>
+
+          </div>
+          <div class="col-span-2">
+            <input pInputText type="text" [ngModel]="field.defaultValue" (ngModelChange)="update(field, 'defaultValue', $event)" fluid/>
+          </div>
+          <div class="col-span-1">
+            <p-checkbox [binary]="true" [ngModel]="field.nullable" (ngModelChange)="update(field, 'nullable', $event)" />
+          </div>
+          <div class="col-span-3">
+            @for (option of field.options; track $index) {
+              <div class="flex gap-2">
+                <input pInputText [ngModel]="option.label" fluid [disabled]="field.type !== 'options'"
+                  (ngModelChange)="updateOptions(field, option, 'label', $event)" />
+                <input pInputText [ngModel]="option.value" fluid [disabled]="field.type !== 'options'"
+                  (ngModelChange)="updateOptions(field, option, 'label', $event)" />
+              </div>
+            }
+            <p-button size="small" icon="pi pi-plus" label="Add Options" severity="contrast"
+            [disabled]="field.type !== 'options'" (click)="addOptions(field)"></p-button>
+
+          </div>
+          <div class="col-span-2">
+            <p-button icon="pi pi-trash" severity="danger" (click)="generatorStore.removeField(field.id)"/>
+            <!-- <input pInputText type="text" [(ngModel)]="field.buttonAction" fluid
+              (ngModelChange)="update(field, 'lookup-button', $event)" [disabled]="field.type !== 'buttonAction'"/> -->
+
+          </div>
+        }
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <div class="w-full">
+
+  </div>
+
+
+  <div class="w-full">
+    <p-button size="small" icon="pi pi-cog" [label]="this.generatorStore.$formGenerator().docs.length > 0 ? 'Update Form' : 'Generate Form' " severity="contrast"
+      (click)="generate()"></p-button>
+  </div>
+</div>

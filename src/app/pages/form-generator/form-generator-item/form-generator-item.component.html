@@ -1,0 +1,114 @@
+@if (generatorStore.$formGenerator().grid.gridLayoutList[colIndex][rowIndex].isNull) {
+<div class="bg-gray-200 dark:bg-gray-700 h-10 w-full rounded-lg relative">
+  <p-button (click)="op.toggle($event)" size="small" icon="pi pi-plus" severity="contrast"
+    class="absolute top-2 left-2" />
+  <!-- <div class="bg-contrast absolute top--2 left--2">
+      <i class="pi pi-plus"></i>
+    </div> -->
+
+</div>
+}
+@else {
+  <div class="relative">
+    @switch(generatorStore.$formGenerator().grid.gridLayoutList[colIndex][rowIndex].key) {
+      @case('text') {
+        <div class="grid grid-cols-12 items-center gap-2">
+          <div class="col-span-12 md:col-span-3">
+            <label for="txt-account-number-input-account">{{ generatorStore.$formGenerator().grid.gridLayoutList[colIndex][rowIndex].label }}</label>
+          </div>
+
+          <div class="col-span-12 md:col-span-9">
+            <input id="num-row"
+            type="text"
+            pInputText
+
+            class="w-full"
+            />
+          </div>
+        </div>
+      }
+      @case('number') {
+        <div class="grid grid-cols-12 items-center gap-2">
+          <div class="col-span-12 md:col-span-3">
+            <label for="txt-account-number-input-account">{{ generatorStore.$formGenerator().grid.gridLayoutList[colIndex][rowIndex].label }}</label>
+          </div>
+
+          <div class="col-span-12 md:col-span-9">
+            <p-inputNumber
+            inputId="num-row"
+
+            class="w-full"
+            mode="decimal"
+            locale="de-DE"
+            [min]="0" />
+          </div>
+        </div>
+      }
+      @case('date') {
+        <div class="grid grid-cols-12 items-center gap-2">
+          <div class="col-span-12 md:col-span-3">
+            <label for="txt-account-number-input-account">{{ generatorStore.$formGenerator().grid.gridLayoutList[colIndex][rowIndex].label }}</label>
+          </div>
+
+          <div class="col-span-12 md:col-span-9">
+            <p-datepicker
+
+            placeholder="Choose Date"
+            fluid
+            />
+
+          </div>
+        </div>
+      }
+      @default {
+        <div>kosong</div>
+      }
+    }
+    <!-- <p-button variant="text" size="small" icon="pi pi-trash" severity="danger" class="absolute -left-2 -top-2" r /> -->
+  </div>
+}
+
+<p-popover #op styleClass="w-4/12">
+  <div class="flex flex-col gap-4 w-full" [formGroup]="layoutForm">
+    colIndex {{ colIndex  }}
+    rowIndex {{ rowIndex  }}
+    <div class="grid grid-cols-12 gap-2">
+      <div class="col-span-12">
+        <p class="font-semibold text-xs">Key</p>
+      </div>
+      <div class="col-span-12">
+        <p-select [options]="keyOptions" formControlName="key" fluid></p-select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-2">
+      <div class="col-span-12">
+        <p class="font-semibold text-xs">Label</p>
+      </div>
+      <div class="col-span-12">
+        <input pInputText formControlName="label" fluid />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-2">
+      <div class="col-span-12">
+        <p class="font-semibold text-xs">Field</p>
+      </div>
+      <div class="col-span-12">
+        <p-select [options]="fieldOptions()" formControlName="field" fluid></p-select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-2">
+      <div class="col-span-12">
+        <p class="font-semibold text-xs">Orientation</p>
+      </div>
+      <div class="col-span-12">
+        <p-select [options]="orientationOptions" formControlName="orientation" fluid></p-select>
+      </div>
+    </div>
+
+
+    <!-- <p-button (click)="assign()" label="Assign this grid" /> -->
+  </div>
+</p-popover>

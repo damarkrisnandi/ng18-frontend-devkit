@@ -1,0 +1,17 @@
+<div class="w-full h-full rounded-lg border border-gray-800 dark:border-gray-200 p-4 flex flex-col gap-4">
+  <h1 class="font-semibold text-xl">Preview</h1>
+  <div id="form-preview" [class]="'grid grid-cols-12 md:gap-2 ' + (generatorStore.$formGenerator().grid.styleClass ?? '')">
+    @for (cols of generatorStore.$formGenerator().grid.gridLayoutList; track cols[$index].colIndex ) {
+      <div [class]="generatorStore.colStyleClass()">
+            @for (row of cols; track ((row.colIndex * 10) +  row.rowIndex)) {
+            <!-- col: {{ row.colIndex }} / row: {{ row.rowIndex }} -->
+            <app-form-generator-item  [colIndex]="row.colIndex" [rowIndex]="row.rowIndex" />
+            <!-- <div class="bg-gray-200 dark:bg-gray-700 h-20 w-full rounded-lg"></div> -->
+          }
+          </div>
+
+
+
+    }
+  </div>
+</div>

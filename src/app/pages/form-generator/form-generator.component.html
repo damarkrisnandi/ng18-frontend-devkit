@@ -1,0 +1,19 @@
+<div class="flex flex-col gap-2">
+  <app-form-generator-main />
+
+  <p-tabs value="preview">
+    <p-tablist>
+        <p-tab value="preview">Preview</p-tab>
+        <p-tab value="code">Code</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+        <p-tabpanel value="preview">
+          <app-form-generator-preview />
+        </p-tabpanel>
+        <p-tabpanel value="code">
+          <app-form-generator-doc />
+        </p-tabpanel>
+
+    </p-tabpanels>
+</p-tabs>
+</div>

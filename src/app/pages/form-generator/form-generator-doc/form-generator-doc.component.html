@@ -1,0 +1,22 @@
+<div class="w-full flex flex-col gap-2">
+  @for (doc of generatorStore.$formGenerator().docs; track $index) {
+    <p-card>
+      <ng-template #header>
+        <div class="flex justify-between items-center">
+          <div class="flex gap-4 items-center">
+            <p class="font-bold text-sm">{{ doc.name }}</p>
+            <p class="font-bold text-sm">{{ doc.type }}</p>
+          </div>
+          <div>
+            <p-button icon="pi pi-copy" label="Copy" (click)="copyToClipboard($event, doc.content)" />
+          </div>
+        </div>
+      </ng-template>
+      <pre [ngClass]="'language-' + doc.type" class="w-full overflow-x-auto m-0 p-4 bg-gray-700 rounded-lg">
+        <code [ngClass]="'language-' + doc.type + ' text-white'" [innerHTML]="doc.type === 'html' ? highlightCode(generatorStore.htmlContent(), doc.type) : doc.type === 'ts' ? highlightCode(generatorStore.tsContent(), doc.type) :  highlightCode(doc.content, doc.type) ">
+        </code>
+      </pre>
+    </p-card>
+
+  }
+</div>
