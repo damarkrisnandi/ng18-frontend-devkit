@@ -158,8 +158,8 @@ export class ${this.$formGenerator().formName}Component {
   });
   constructor() {
     this.formGenerated.valueChanges.subscribe((value) => {
-    \t\tconst formData = this.generatedForm.getRawValue();
-    \t\tthis.state.$dataSave.set(formData)
+    \tconst formData = this.generatedForm.getRawValue();
+    \tthis.state.$dataSave.set(formData)
     })
 
   }
